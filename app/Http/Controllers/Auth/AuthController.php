@@ -38,16 +38,16 @@ class AuthController extends Controller
                 'message' => 'Unauthorized'
             ], 401);
         }
-
-        Cache::store('redis')->put('user', auth()->user(), 60);
-        //break line
-
-        Redis::set('user', auth()->user(), 'EX', 60);
-        //get
-        $user = Cache::store('redis')->get('user')->username;
-        print_r("$user\n");
-        $user = Redis::get('user');
-        print_r($user);
+//        Cache::driver('redis')->put('user:profile', auth()->user(), 60);
+//        Cache::put('123', 'check', 60);
+//        //break line
+//
+//        Redis::set('test', auth()->user(), 'EX', 60);
+//        //get
+//        $check = Cache::get('123');
+//        print_r("$check\n");
+//        $user = Redis::get('test');
+//        print_r($user);
 
 //        Redis::pipeline(function (Redis $redis) {
 //            for ($i = 0; $i < 1000; $i++) {
@@ -56,6 +56,13 @@ class AuthController extends Controller
 //        });
 //        $redisKeys = Redis::keys('*');
 //        print_r($redisKeys);
+
+        Cache::remember('users', 60, function () {
+            return auth()->user();
+        });
+
+        $check = Cache::get('users');
+        print_r("$check\n");
 
         return $this->createNewToken($token);
     }
@@ -128,13 +135,14 @@ class AuthController extends Controller
      * @return JsonResponse
      */
     public function userProfile() {
-        if (Cache::store('redis')->has('user')) {
-            $user = Cache::store('redis')->get('user');
-            print_r("$user->username\n");
+        if (Cache::store('redis')->has('user:profile')) {
+            $user = Cache::store('redis')->get('user:profile');
+            print_r("$user\n");
         }
         if(Redis::exists('user')) {
             print "user from redis";
-            $user = Redis::get('user:profile');
+            $user = Redis::get('user');
+//            Redis::del('user:profile');
         }
         else {
             print "user from db";
