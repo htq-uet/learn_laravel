@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\File\GetUserExcelController;
 use Illuminate\Support\Facades\Route;
 
 include __DIR__ . "/auth.php";
@@ -22,6 +23,9 @@ include __DIR__ . "/product.php";
 //    return $request->user();
 //});
 
+Route::prefix('v1')->middleware('api')->group(function () {
+    Route::get('/get_excel', [GetUserExcelController::class, 'export']);
+});
 
 
 

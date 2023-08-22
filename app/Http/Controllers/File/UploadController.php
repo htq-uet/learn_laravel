@@ -8,10 +8,10 @@ use Illuminate\Http\JsonResponse;
 
 class UploadController extends Controller
 {
-    public function upload(FileRequest $request) : JsonResponse
+    public function upload(FileRequest $request): JsonResponse
     {
         $target_dir = "public/uploads/";
-        if($request->hasFile('file')) {
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
 //            if (file_exists($target_dir . $file->getClientOriginalName())) {
 //                return response()->json([
@@ -21,7 +21,6 @@ class UploadController extends Controller
 
             $file->move($target_dir, $file->getClientOriginalName());
         }
-
 
 
         return response()->json([
