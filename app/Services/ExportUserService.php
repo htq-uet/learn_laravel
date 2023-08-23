@@ -18,7 +18,8 @@ class ExportUserService
     {
 
         try {
-            $user = $this->userRepository->getAdminUser();
+//            $user = $this->userRepository->getAdminUser();
+            $user = UserRepository::make()->getAdminUser();
 
 //        $user = $this->userRepository->getStaffUser();
 

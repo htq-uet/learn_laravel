@@ -7,6 +7,11 @@ use App\Models\User;
 class UserRepository extends Repository
 {
 
+    public static function make()
+    {
+        return new self;
+    }
+
     public function getModel() : string
     {
         // TODO: Implement getModel() method.

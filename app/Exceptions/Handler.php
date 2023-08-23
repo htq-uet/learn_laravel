@@ -40,7 +40,7 @@ class Handler extends ExceptionHandler
 
         if ($e instanceof UnauthorizedException) {
             return response()->json([
-                'error' => 'Unauthorized. Invalid Token.',
+                'error' => 'Unauthorized: ' . $e->getMessage(),
             ], 400);
         }
 
