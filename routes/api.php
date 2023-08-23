@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\File\GetUserExcelController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
 include __DIR__ . "/auth.php";
@@ -27,5 +28,7 @@ Route::prefix('v1')->middleware('api')->group(function () {
     Route::get('/get_excel', [GetUserExcelController::class, 'export']);
 });
 
-
+Route::prefix('v1')->middleware('api', 'token', 'role:SHOP')->group(function () {
+    Route::post('/create_new_staff', [StaffController::class, 'create']);
+});
 
