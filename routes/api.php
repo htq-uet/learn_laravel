@@ -28,7 +28,9 @@ Route::prefix('v1')->middleware('api')->group(function () {
     Route::get('/get_excel', [GetUserExcelController::class, 'export']);
 });
 
-Route::prefix('v1')->middleware('api', 'token', 'role:SHOP')->group(function () {
+Route::prefix('v1')->middleware(['token','auth:api', 'api',  'role:SHOP'])->group(function () {
     Route::post('/create_new_staff', [StaffController::class, 'create']);
+    Route::put('/update_staff', [StaffController::class, 'update']);
+    Route::get('/get_staff_list', [StaffController::class, 'getOwnStaffList']);
 });
 

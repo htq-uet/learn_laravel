@@ -3,15 +3,18 @@
 namespace App\Services;
 
 use App\Http\Requests\CreateStaffRequest;
+use App\Http\Requests\UpdateStaffRequest;
 use App\Models\Staff;
 use App\Models\User;
 use App\Repositories\ShopRepository;
+use App\Repositories\StaffRepository;
 use Illuminate\Support\Facades\Auth;
 
 class StaffService
 {
 public function __construct(
-        protected ShopRepository $shopRepository
+        protected ShopRepository $shopRepository,
+        protected StaffRepository $staffRepository
     ) {
     }
 
@@ -43,15 +46,30 @@ public function __construct(
     }
 
     public function update(UpdateStaffRequest $request) {
+        try {
+            $staff = Staff::find($request->id);
+            $staff->name = $request->name ?? $staff->name;
+            $staff->phone = $request->phone ?? $staff->phone;
+            $staff->status = $request->status ?? $staff->status;
+            $staff->save();
 
-
-
-        $staff = Staff::find($request->id);
-        $staff->name = $request->name;
-        $staff->phone = $request->phone;
-        $staff->status = $request->status;
-        $staff->password = bcrypt($request->password);
-        $staff->save();
-        return $staff;
+            if ($request->password) {
+//                dd($staff);
+                $user = User::find($staff->user_id);
+//                dd($user);
+                $user->password = bcrypt($request->password);
+                $user->save();
+            }
+            return $staff;
+        }
+        catch (\Exception $exception) {
+            return $exception;
+        }
     }
+
+    public function getOwnStaffList() {
+        $shop_id = $this->shopRepository->getShopIdByUserId(Auth::user()->id);
+        return $this->staffRepository->getStaffByShopId($shop_id);
+    }
+
 }

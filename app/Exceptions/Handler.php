@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\UnauthorizedException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -39,6 +40,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof UnauthorizedException) {
+
             return response()->json([
                 'error' => 'Unauthorized: ' . $e->getMessage(),
             ], 400);

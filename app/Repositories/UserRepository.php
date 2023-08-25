@@ -19,7 +19,7 @@ class UserRepository extends Repository
     }
 
     public function getAdminUser() {
-        return $this->getModel()::join('shop', 'shop.user_id', '=', 'user.id')
+        return $this->_model::join('shop', 'shop.user_id', '=', 'user.id')
             ->where('user.role', 'SHOP')
             ->select('shop.*', 'user.username')
             ->get()
@@ -37,7 +37,7 @@ class UserRepository extends Repository
     }
 
     public function getStaffUser() {
-        return $this->getModel()::join('staff', 'staff.user_id', '=', 'user.id')
+        return $this->_model::join('staff', 'staff.user_id', '=', 'user.id')
             ->where('user.role', 'STAFF')
             ->select('staff.*', 'user.username')
             ->get()

@@ -13,9 +13,10 @@ services:
       - ~/apps/mysql:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=
+      - MYSQL_ROOT_HOST=%`
       - MYSQL_PASSWORD=
       - MYSQL_USER=root
-      - MYSQL_DATABASE=order_management
+      - MYSQL_DATABASE=
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
 #  elasticsearch:
 #    container_name: es-container

@@ -16,7 +16,10 @@ class ShopRepository extends Repository
         $shopID = $this->_model
             ->select('id')
             ->where('user_id', '=', $userID)
-            ->first();
+            ->first()->id;
+
         return $shopID;
     }
+
+
 }
