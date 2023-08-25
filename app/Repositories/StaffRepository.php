@@ -24,4 +24,27 @@ class StaffRepository extends Repository
         return $staffs;
     }
 
+    public function getShopIdByUserId($user_id)
+    {
+        $shopID = $this->_model
+            ->select('shop_id')
+            ->where('user_id', '=', $user_id)
+            ->first()->shop_id;
+
+        return $shopID;
+    }
+
+    public function getStaffIdByUserId($user_id)
+    {
+        $result = $this->_model
+            ->select('id')
+            ->where('user_id', '=', $user_id)
+            ->first();
+
+        $id = $result ? $result->id : null;
+
+        return $id;
+
+    }
+
 }

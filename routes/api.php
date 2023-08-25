@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\File\GetUserExcelController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,5 +33,9 @@ Route::prefix('v1')->middleware(['token','auth:api', 'api',  'role:SHOP'])->grou
     Route::post('/create_new_staff', [StaffController::class, 'create']);
     Route::put('/update_staff', [StaffController::class, 'update']);
     Route::get('/get_staff_list', [StaffController::class, 'getOwnStaffList']);
+});
+
+Route::prefix('v1')->middleware(['token','auth:api', 'api',  'role:SHOP'])->group(function () {
+    Route::post('/create_new_order', [OrderController::class, 'create']);
 });
 
