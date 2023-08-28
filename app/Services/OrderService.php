@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\CreateOrderRequest;
+use App\Models\History;
 use App\Repositories\OrderListRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\ProductRepository;
@@ -54,6 +55,13 @@ class OrderService
                 'quantity' => $quantity[0][$i]['quantity']
             ]);
         }
+
+        History::create([
+            'user_id' => Auth::user()->id,
+            'action' => 'Create',
+            'content' => $request->getContent(),
+            'time' => now()
+        ]);
 
         return [
             'order' => $order,

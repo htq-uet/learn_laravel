@@ -10,6 +10,4 @@ class OrderListRepository extends Repository
     {
         return OrderList::class;
     }
-
-
 }
