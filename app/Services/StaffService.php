@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Repositories\ShopRepository;
 use App\Repositories\StaffRepository;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class StaffService
 {
@@ -20,6 +21,7 @@ public function __construct(
 
     public function create(CreateStaffRequest $request) : array
     {
+        DB::beginTransaction();
         $user = User::create([
             'username' => $request->username,
             'password' => bcrypt($request->password),
@@ -36,6 +38,8 @@ public function __construct(
             'shop_id' => $shop_id->id,
             'status' => 'active',
         ]);
+
+        DB::commit();
 
         $data = [
             'user' => $user,

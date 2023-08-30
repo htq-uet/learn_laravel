@@ -27,16 +27,12 @@ class AppServiceProvider extends ServiceProvider
                 $formatQuery = str_replace(array('?'), array('\'%s\''), $query->sql);
                 $formatQuery = strtoupper(vsprintf($formatQuery, $query->bindings));
 
-                // Get the caller's file and line
-                $trace = debug_backtrace();
-                $caller = array_shift($trace);
 
-                // Query time in milliseconds
+
+//                 Query time in milliseconds
                 $loggerInfo = 'QUERY EXECUTED: ' . $formatQuery
                     . ' || TIME EXECUTED: ' . ($query->time / 1000) . 's'
-                    . ' || DB CONNECTION: ' . $query->connectionName
-                    . ' || FILE: ' . ($caller['file'] ?? 'Unknown')
-                    . ' || LINE: ' . ($caller['line'] ?? 'Unknown');
+                    . ' || DB CONNECTION: ' . $query->connectionName;
 
                 Log::info($loggerInfo);
             });

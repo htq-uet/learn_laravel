@@ -14,6 +14,7 @@ class ShopRepository extends Repository
     public function getShopIdByUserId($userID)
     {
         $shopID = $this->_model
+            ->query()
             ->select('id')
             ->where('user_id', '=', $userID)
             ->first()->id;
